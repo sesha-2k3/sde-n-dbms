@@ -1,1 +1,1 @@
-# vibin-with-sd
+# sde-n-dbms
