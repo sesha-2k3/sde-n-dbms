@@ -7,10 +7,19 @@
 
 ## About This Repo
 
-This repository documents my journey from ML/Data Science into production-grade software development. Each day folder contains notes, code samples, and mini-projects that reinforce key concepts. The goal isn't to become an expert in a week — it's to build a strong mental model and a reference I can revisit.
+This repository documents my journey from ML/Data Science into software development. Each day folder contains notes, code samples, and mini-projects that reinforce key concepts. The goal isn't to become an expert in a week — it's to build a strong mental model and a reference I can revisit.
 
-**My Background:** MS CS @ Northeastern | Python, FastAPI, Docker, SQL, MongoDB, AWS, ML/NLP pipelines.
 **The Gap:** Software architecture, testing discipline, CI/CD workflows, system design thinking, and deeper DBMS internals.
+
+---
+
+## The Project — FitTrack: Diet & Workout Tracker
+
+Instead of disconnected toy examples, the entire 7-day SWE track builds one real application end-to-end: a **client-facing Diet & Workout Tracking System** designed for personal trainers.
+
+**The scenario:** You are a personal trainer. Your clients log in to the app, see a personalized dashboard with a welcome message, today's notes from you, and two main tabs — **Workout** and **Diet**. Under Workout, they pick from a checklist of three modes: **Strength**, **Cardio**, or **Rest**. Each day's progress is tracked, logged, and visible over time.
+
+This project grows daily — from a raw API on Day 1, to a tested, Dockerized, CI/CD-enabled full-stack app by Day 7.
 
 ---
 
@@ -18,7 +27,7 @@ This repository documents my journey from ML/Data Science into production-grade 
 
 ```
 swe-fundamentals/
-├── README.md                       ← You are here
+├── README.md
 ├── day-01-design-patterns/
 │   ├── notes.md
 │   ├── patterns/
@@ -28,11 +37,19 @@ swe-fundamentals/
 │   └── refactor-log.md
 ├── day-02-backend-apis/
 │   ├── notes.md
-│   ├── task-manager-api/
+│   ├── fittrack-api/
 │   │   ├── app/
 │   │   │   ├── main.py
 │   │   │   ├── routers/
+│   │   │   │   ├── auth.py
+│   │   │   │   ├── workouts.py
+│   │   │   │   ├── diet.py
+│   │   │   │   └── dashboard.py
 │   │   │   ├── models/
+│   │   │   │   ├── user.py
+│   │   │   │   ├── workout.py
+│   │   │   │   └── diet.py
+│   │   │   ├── schemas/
 │   │   │   ├── services/
 │   │   │   └── auth/
 │   │   ├── requirements.txt
@@ -42,24 +59,26 @@ swe-fundamentals/
 │   ├── notes.md
 │   ├── sql-exercises/
 │   │   └── solutions.sql
-│   ├── task-manager-api/  (extended from day 2)
+│   ├── fittrack-api/  (extended from day 2)
 │   │   ├── alembic/
 │   │   ├── models/
 │   │   └── db/
 │   └── db-design-notes.md
 ├── day-04-testing/
 │   ├── notes.md
-│   ├── task-manager-api/  (extended)
+│   ├── fittrack-api/  (extended)
 │   │   ├── tests/
-│   │   │   ├── test_services.py
-│   │   │   ├── test_api.py
+│   │   │   ├── test_auth.py
+│   │   │   ├── test_workouts.py
+│   │   │   ├── test_diet.py
+│   │   │   ├── test_dashboard.py
 │   │   │   └── conftest.py
 │   │   ├── .pre-commit-config.yaml
 │   │   └── pyproject.toml
 │   └── tdd-reflection.md
 ├── day-05-cicd-docker/
 │   ├── notes.md
-│   ├── task-manager-api/  (extended)
+│   ├── fittrack-api/  (extended)
 │   │   ├── Dockerfile
 │   │   ├── docker-compose.yml
 │   │   ├── .github/workflows/ci.yml
@@ -67,16 +86,21 @@ swe-fundamentals/
 │   └── git-workflow-notes.md
 ├── day-06-system-design/
 │   ├── notes.md
-│   ├── url-shortener/
-│   │   ├── architecture.md
-│   │   ├── app/
-│   │   ├── docker-compose.yml
+│   ├── fittrack-architecture/
+│   │   ├── system-design.md
+│   │   ├── diagrams/
 │   │   └── README.md
 │   └── system-design-flashcards.md
 ├── day-07-fullstack/
 │   ├── notes.md
-│   ├── task-manager-frontend/
+│   ├── fittrack-frontend/
 │   │   ├── src/
+│   │   │   ├── components/
+│   │   │   │   ├── Login.jsx
+│   │   │   │   ├── Dashboard.jsx
+│   │   │   │   ├── WorkoutTab.jsx
+│   │   │   │   └── DietTab.jsx
+│   │   │   └── App.jsx
 │   │   ├── package.json
 │   │   └── README.md
 │   ├── docker-compose.yml  (full stack)
@@ -119,7 +143,7 @@ swe-fundamentals/
 | [ArjanCodes — SOLID & Design Patterns in Python](https://www.youtube.com/c/ArjanCodes) | Video | Python-focused, perfect for your background |
 | [Clean Code Summary (GitHub Gist)](https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29) | Reading | Community summary of the key Clean Code principles |
 
-**Practice Project:** Refactor your Text-QL or LinSec project — identify violations of SOLID principles and apply at least 2 design patterns. Document the before/after in your repo.
+**Practice Project:** Plan the FitTrack application architecture on paper. Identify which design patterns apply — Strategy pattern for workout types (Strength, Cardio, Rest), Factory pattern for creating workout/diet entries, Repository pattern for data access. Sketch the class diagram and document which SOLID principles each decision follows. Commit this as your `refactor-log.md`.
 
 ---
 
@@ -144,7 +168,13 @@ swe-fundamentals/
 | [Microsoft — RESTful Web API Design](https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design) | Reading | Industry-standard guide to REST API design patterns |
 | [freeCodeCamp — Back End Dev & APIs](https://www.freecodecamp.org/learn/back-end-development-and-apis/) | Course | Free hands-on projects with Node.js (good to see both ecosystems) |
 
-**Practice Project:** Build a Task Manager API with FastAPI — CRUD operations, JWT auth, proper error handling, Pydantic models, and structured project layout (routers → services → repositories). Push to your repo with a working README and example curl commands.
+**Practice Project:** Build the FitTrack API with FastAPI. Implement:
+- **Auth routes** — register, login (JWT), get current user
+- **Dashboard route** — returns welcome message ("Welcome back, {name}!"), today's personal note from trainer, and today's workout/diet summary
+- **Workout routes** — log a workout entry (type: Strength | Cardio | Rest, with checklist items), get workout history, get today's workout
+- **Diet routes** — log a meal entry, get diet history, get today's meals
+
+Structure the project with routers → services → schemas (Pydantic). Push to your repo with a working README and example curl commands.
 
 ---
 
@@ -169,7 +199,13 @@ swe-fundamentals/
 | [CMU 15-445 Lectures (YouTube)](https://www.youtube.com/@CMUDatabaseGroup) | Video | Andy Pavlo's legendary DB course — watch indexing & transactions lectures |
 | [Use The Index, Luke](https://use-the-index-luke.com/) | Reading | The best free resource on SQL indexing and query performance |
 
-**Practice Project:** Add PostgreSQL + SQLAlchemy to your Day 2 Task Manager API. Implement migrations with Alembic, add indexes on frequently queried columns, and write queries demonstrating JOIN, GROUP BY, and subqueries.
+**Practice Project:** Add PostgreSQL + SQLAlchemy to FitTrack. Design the schema:
+- `users` — id, name, email, hashed_password, trainer_id, created_at
+- `trainer_notes` — id, trainer_id, client_id, note_text, date, created_at
+- `workouts` — id, user_id, date, type (strength/cardio/rest), completed, details (JSONB for flexible checklist items)
+- `meals` — id, user_id, date, meal_type (breakfast/lunch/dinner/snack), description, calories, protein, carbs, fat
+
+Implement Alembic migrations, add indexes on (user_id, date) for fast dashboard lookups, and write queries demonstrating JOINs (user + today's note + today's workouts), GROUP BY (weekly workout summary), and subqueries (clients who missed workouts this week).
 
 ---
 
@@ -194,7 +230,11 @@ swe-fundamentals/
 | [ArjanCodes — TDD in Python](https://www.youtube.com/watch?v=B1j6k2j2eJg) | Video | Practical TDD walkthrough in Python |
 | [roadmap.sh — QA Roadmap](https://roadmap.sh/qa) | Roadmap | Broader view of quality assurance practices |
 
-**Practice Project:** Write a full test suite for your Task Manager API — unit tests for services (with mocked DB), integration tests for API endpoints (using `TestClient`), and add a pre-commit config with ruff + mypy. Aim for >80% coverage.
+**Practice Project:** Write a full test suite for FitTrack:
+- **Unit tests** — workout service logic (can't log two workout types for the same day, calorie validation on meals, etc.) with mocked DB
+- **Integration tests** — auth flow (register → login → access protected route), workout logging via API endpoints using `TestClient`
+- **Edge cases** — logging a workout for a future date (should fail), unauthorized access to another client's data, empty diet entries
+- Add a `.pre-commit-config.yaml` with ruff + mypy. Aim for >80% coverage.
 
 ---
 
@@ -219,7 +259,12 @@ swe-fundamentals/
 | [Docker Official Getting Started](https://docs.docker.com/get-started/) | Tutorial | Multi-stage builds and compose deep dive |
 | [roadmap.sh — DevOps Roadmap](https://roadmap.sh/devops) | Roadmap | Broader context for CI/CD, infrastructure, and deployment |
 
-**Practice Project:** Dockerize your Task Manager API with a multi-stage build. Write a `docker-compose.yml` (app + PostgreSQL + Redis). Add a GitHub Actions workflow that runs lint + tests on every push and PR.
+**Practice Project:** Dockerize FitTrack with a multi-stage build. Write a `docker-compose.yml` with three services:
+- `api` — the FastAPI app (multi-stage: build deps → slim runtime image)
+- `db` — PostgreSQL with a health check and persistent volume
+- `redis` — for session caching (prep for Day 6)
+
+Add a GitHub Actions workflow (`ci.yml`) that runs on every push and PR: install deps → ruff lint → mypy check → pytest with coverage report. Add proper `.dockerignore` and `.env.example` files.
 
 ---
 
@@ -244,7 +289,11 @@ swe-fundamentals/
 | [roadmap.sh — System Design Roadmap](https://roadmap.sh/system-design) | Roadmap | Interactive roadmap with linked resources for each topic |
 | [roadmap.sh — Backend Projects](https://roadmap.sh/backend/projects) | Projects | Practice projects — URL shortener, caching proxy, broadcast server |
 
-**Practice Project:** Design a URL Shortener system — draw architecture diagrams (use Excalidraw or Mermaid), document component choices and tradeoffs, and write a working prototype with Redis caching. Include the architecture doc in your repo.
+**Practice Project:** Design FitTrack at scale. Create `fittrack-architecture/system-design.md` that covers:
+- **Architecture diagram** (Mermaid or Excalidraw) — client app → API gateway → auth service → workout service → diet service → DB
+- **Caching layer** — implement Redis caching for the dashboard endpoint (today's note + workout + diet are fetched on every login; cache per user with TTL, invalidate on new log entry)
+- **Scaling analysis** — if 10,000 trainers each have 50 clients, and each client logs in once daily, what's the read/write ratio? Where are the bottlenecks? How would you shard the `workouts` table?
+- **Async processing** — design a notification system (e.g., "Your trainer left you a new note") using Celery + Redis as broker
 
 ---
 
@@ -269,7 +318,13 @@ swe-fundamentals/
 | [The Odin Project — Foundations](https://www.theodinproject.com/paths/foundations) | Course | Free, project-based full-stack curriculum |
 | [Full Stack Open (Univ. of Helsinki)](https://fullstackopen.com/en/) | Course | Deep university-level: React, Node, GraphQL, TypeScript — all free |
 
-**Practice Project:** Build a simple React frontend for your Task Manager API — list tasks, add/delete tasks, toggle completion status. Deploy everything with Docker Compose (frontend + backend + DB). Write a comprehensive README for your entire learning repo.
+**Practice Project:** Build the FitTrack client dashboard in React:
+- **Login page** — email/password form, call the auth API, store JWT
+- **Dashboard** — "Welcome back, {name}!" header, today's date, trainer's personal note for today displayed as a card
+- **Workout tab** — checklist UI with three options: Strength, Cardio, Rest. Client taps one to mark today's workout type as complete. Show a weekly history grid (Mon–Sun, color-coded by type)
+- **Diet tab** — simple meal log form (meal type dropdown, description, calories). List of today's logged meals below the form
+
+Deploy the full stack with Docker Compose (frontend + API + PostgreSQL + Redis). Write a comprehensive project README that someone could clone and run.
 
 ---
 
@@ -296,7 +351,7 @@ swe-fundamentals/
 | [Database System Concepts (Silberschatz) — Ch. 2, 6](https://db-book.com/) | Textbook | The standard DBMS textbook used in most university courses |
 | [Scaler — DBMS Fundamentals Course (Free)](https://www.scaler.com/topics/course/dbms/) | Course | Free course with certificate covering fundamentals through advanced |
 
-**Practice:** Translate 10 English-language queries into relational algebra, then into SQL. Verify both produce the same results on a sample dataset.
+**Practice:** Translate 10 English-language queries into relational algebra, then into SQL. Use FitTrack's schema as your dataset — e.g., "Find all clients whose trainer left a note today but who haven't logged a workout" expressed in both relational algebra and SQL.
 
 ---
 
@@ -321,7 +376,10 @@ swe-fundamentals/
 | [LeetCode — Database Problems (Top 50)](https://leetcode.com/studyplan/top-sql-50/) | Practice | Interview-style SQL problems for drilling speed |
 | [Khan Academy — Intro to SQL](https://www.khanacademy.org/computing/computer-programming/sql) | Interactive | Video tutorials paired with coding challenges |
 
-**Practice:** Solve 20 LeetCode SQL problems (mix of medium and hard). Write window function queries on a mock e-commerce dataset (top products by category, running totals, month-over-month growth).
+**Practice:** Write queries against FitTrack data:
+- Window functions — rank clients by workout consistency this month, calculate each client's running calorie average using LAG, 7-day rolling workout streak
+- CTEs — recursive query to find a trainer's full client tree (if trainers can have sub-trainers), weekly summary CTE feeding into a monthly report
+- JSONB — query the workout `details` field to find all strength workouts that included "bench press" in the checklist
 
 ---
 
@@ -345,7 +403,11 @@ swe-fundamentals/
 | [Vertabelo Database Modeler (Free Tier)](https://vertabelo.com/) | Tool | Visual ER diagram tool for practicing schema design |
 | [Database System Concepts — Ch. 7, 8](https://db-book.com/) | Textbook | Normalization theory with worked examples |
 
-**Practice:** Design a database schema for a multi-tenant SaaS application (users, organizations, roles, permissions, audit logs). Normalize to 3NF, then identify where strategic denormalization would help. Document your reasoning.
+**Practice:** Redesign FitTrack's schema with rigor:
+- Draw a full ER diagram (entities: User, Trainer, Workout, WorkoutDetail, Meal, TrainerNote, WorkoutPlan/Template)
+- Normalize to 3NF — document each functional dependency
+- Identify where denormalization helps: e.g., storing `total_daily_calories` on a `daily_summary` table instead of computing via aggregation on every dashboard load
+- Add a `workout_templates` table so trainers can assign reusable workout plans to clients — model the many-to-many relationship
 
 ---
 
@@ -369,7 +431,11 @@ swe-fundamentals/
 | [PostgreSQL Docs — Index Types](https://www.postgresql.org/docs/current/indexes-types.html) | Docs | Understand GIN, GiST, BRIN, and B-Tree indexes in practice |
 | [pgMustard — EXPLAIN Analyzer](https://www.pgmustard.com/docs/explain) | Tool | Learn to read and interpret PostgreSQL query plans |
 
-**Practice:** Create a dataset with 1M+ rows. Benchmark queries with and without indexes, compare EXPLAIN ANALYZE output. Experiment with B-Tree, GIN (for JSONB/arrays), and partial indexes. Document your findings with before/after metrics.
+**Practice:** Seed FitTrack with 1M+ rows of synthetic workout and meal data across 500 users over 2 years. Benchmark:
+- Dashboard query (today's workouts + meals + note for a user) with and without a composite index on `(user_id, date)`
+- GIN index on the JSONB `details` column for workout checklist searches
+- Partial index on `workouts WHERE type = 'rest'` for a "rest day report" query
+- Document EXPLAIN ANALYZE output before and after each optimization
 
 ---
 
@@ -393,7 +459,11 @@ swe-fundamentals/
 | [Designing Data-Intensive Applications — Ch. 7](https://dataintensive.net/) | Textbook | Martin Kleppmann's masterful explanation of transactions |
 | [Jepsen.io — Consistency Models](https://jepsen.io/consistency) | Reading | Kyle Kingsbury's analysis of consistency in real-world databases |
 
-**Practice:** Write Python scripts that intentionally trigger each concurrency anomaly (dirty read, phantom read, etc.) using different isolation levels in PostgreSQL. Document the behavior at each level.
+**Practice:** Using FitTrack's database, write Python scripts that demonstrate:
+- **Dirty read scenario** — trainer updates a client's note while the client is reading the dashboard
+- **Lost update** — two requests try to update the same workout entry simultaneously (e.g., client marks "complete" from phone and laptop at the same time)
+- **Phantom read** — a trainer counts how many clients worked out today while a new workout log is being inserted
+- Test each scenario under Read Committed vs Serializable. Document the behavior.
 
 ---
 
@@ -417,7 +487,12 @@ swe-fundamentals/
 | [pganalyze — Query Optimization Guide](https://pganalyze.com/docs/explain/query-optimization) | Tutorial | Real-world PostgreSQL query optimization patterns |
 | [Database System Concepts — Ch. 15, 16](https://db-book.com/) | Textbook | Academic foundation for query processing and optimization |
 
-**Practice:** Take 5 slow queries from a real or mock application, use EXPLAIN ANALYZE to identify bottlenecks, and optimize each one. Document the original plan, what you changed (index, rewrite, schema change), and the resulting improvement.
+**Practice:** Optimize these FitTrack queries:
+1. "Show a trainer's full client dashboard with each client's workout count, average daily calories, and last active date this month" — involves multi-table JOINs and aggregation
+2. "Find all clients who have been on a rest day for 3+ consecutive days" — requires window functions or self-joins
+3. "Monthly leaderboard: rank all clients by workout consistency (percentage of days with a logged workout)" — heavy aggregation
+4. Create a materialized view for the trainer dashboard that refreshes daily. Compare query times vs. live computation.
+5. For each query, document the original EXPLAIN ANALYZE, what you changed, and the resulting improvement.
 
 ---
 
@@ -441,7 +516,11 @@ swe-fundamentals/
 | [Designing Data-Intensive Applications — Ch. 2, 3](https://dataintensive.net/) | Textbook | Best comparison of different data models and storage engines |
 | [roadmap.sh — PostgreSQL DBA Roadmap](https://roadmap.sh/postgresql-dba) | Roadmap | Comprehensive guide to PostgreSQL administration |
 
-**Practice:** Build a simple chat application that uses Redis for real-time messaging/pub-sub AND PostgreSQL for persistent message history. Compare the performance characteristics of each store for different query patterns.
+**Practice:** Extend FitTrack with polyglot persistence:
+- **Redis** — cache today's dashboard per user (hash), implement a workout streak counter (sorted set), and store active session tokens
+- **MongoDB** — store flexible workout templates (different exercises, sets, reps, variations) that don't fit neatly into a relational schema
+- **PostgreSQL** — remains the source of truth for users, workouts, meals, and notes
+- Write a comparison doc: for each data type in FitTrack, explain which store you chose and why
 
 ---
 
@@ -465,26 +544,29 @@ swe-fundamentals/
 | [Jepsen.io — Analysis of Distributed Databases](https://jepsen.io/analyses) | Reading | Real-world testing of consistency claims by database vendors |
 | [The Amazon DynamoDB Paper (2022)](https://www.usenix.org/conference/atc22/presentation/elhemali) | Paper | Understand the design of a planet-scale distributed database |
 
-**Practice:** Set up a 3-node PostgreSQL cluster with streaming replication (use Docker). Simulate a node failure and observe failover behavior. Write a document explaining what CAP tradeoffs your setup makes.
+**Practice:** Scale FitTrack conceptually and practically:
+- Set up a 3-node PostgreSQL cluster with streaming replication (Docker). Simulate a node failure and observe failover.
+- Design a sharding strategy for FitTrack: shard by `trainer_id`? by `user_id`? Analyze the query patterns and justify your choice.
+- Write a design doc for FitTrack at 1M users: which tables get sharded, which stay replicated, what consistency guarantees do you need for workouts vs. dashboard reads?
 
 ---
 
-## 📚 DBMS Mastery Projects
+## DBMS Mastery Projects
 
 These projects tie together multiple modules and give you portfolio-worthy work:
 
 **Project 1 — Build a Mini Query Engine (Modules 1, 2, 6)**
-Write a simple SQL parser and executor in Python that supports SELECT, WHERE, JOIN, and GROUP BY on CSV files. Implement a basic cost-based optimizer that chooses between nested-loop and hash join based on table size.
+Write a simple SQL parser and executor in Python that supports SELECT, WHERE, JOIN, and GROUP BY on CSV files. Implement a basic cost-based optimizer that chooses between nested-loop and hash join based on table size. Test it on exported FitTrack data.
 
-**Project 2 — Database Performance Benchmarker (Modules 4, 5, 6)**
-Create a benchmarking tool that generates synthetic data, runs configurable workloads (read-heavy, write-heavy, mixed), and measures throughput/latency across different index configurations and isolation levels. Output results as charts.
+**Project 2 — FitTrack Performance Benchmarker (Modules 4, 5, 6)**
+Create a benchmarking tool that simulates FitTrack's access patterns: dashboard reads (high frequency), workout inserts (medium), trainer bulk queries (low frequency, heavy). Measure throughput/latency across different index configurations and isolation levels. Output results as charts.
 
-**Project 3 — Multi-Model Data Layer (Modules 3, 7)**
-Design and implement a data access layer for a social media application that uses PostgreSQL for user data/relationships, Redis for caching/sessions, and MongoDB for flexible content storage. Demonstrate polyglot persistence with a unified API.
+**Project 3 — Multi-Model FitTrack (Modules 3, 7)**
+Implement the full polyglot persistence version of FitTrack — PostgreSQL for structured data, Redis for caching/sessions/streaks, MongoDB for flexible workout templates. Build a unified data access layer that abstracts the storage choice from the API layer. Benchmark each store for its respective query patterns.
 
 ---
 
-## 🧭 Recommended Learning Order
+## Recommended Learning Order
 
 ```
 Week 1:  Day 1 → Day 2 → Day 3 → Day 4 → Day 5 → Day 6 → Day 7
@@ -502,7 +584,7 @@ Week 6+: DBMS Module 7 → Module 8 → Projects
 
 ---
 
-## 🔖 Key Reference Resources (Bookmarks)
+## Key Reference Resources (Bookmarks)
 
 **Roadmaps & Tracks:**
 - [roadmap.sh — Backend Developer](https://roadmap.sh/backend) — Interactive roadmap for backend development
@@ -528,7 +610,7 @@ Week 6+: DBMS Module 7 → Module 8 → Projects
 
 ---
 
-## 📝 How I Use This Repo
+## How I Use This Repo
 
 Each folder has a `notes.md` where I document what I learned in my own words — not just what, but *why* and *when to use it*. The code samples are minimal, focused examples I can revisit quickly. The projects are meant to be pushed, broken, and improved over time.
 
