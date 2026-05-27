@@ -1,4 +1,4 @@
-# Software Development & DBMS Mastery — Learning Roadmap
+# Software Development & DBMS — Learning Roadmap
 
 > **A structured, self-paced learning plan tailored for ML/DS engineers transitioning into software development.**
 > Designed for ~1 hour/day over 7 days (SWE fundamentals) + an extended DBMS deep-dive track.
