@@ -34,7 +34,7 @@ swe-fundamentals/
 │   │   ├── factory_example.py
 │   │   ├── strategy_example.py
 │   │   └── observer_example.py
-│   └── refactor-log.md
+│   └── refactor_log.md
 ├── day-02-backend-apis/
 │   ├── notes.md
 │   ├── fittrack-api/
