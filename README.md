@@ -140,7 +140,7 @@ swe-fundamentals/
 |----------|------|---------------|
 | [Refactoring Guru — Design Patterns](https://refactoring.guru/design-patterns) | Interactive | Best visual guide to all GoF patterns with Python/Java examples |
 | [roadmap.sh — Software Design & Architecture](https://roadmap.sh/software-design-architecture) | Roadmap | Interactive roadmap to track your progress |
-| [ArjanCodes — SOLID & Design Patterns in Python](https://www.youtube.com/c/ArjanCodes) | Video | Python-focused, perfect for your background |
+| [ArjanCodes — SOLID & Design Patterns in Python](https://www.youtube.com/c/ArjanCodes) | [Video](https://www.youtube.com/watch?v=pTB30aXS77U) | Python-focused, perfect for your background |
 | [Clean Code Summary (GitHub Gist)](https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29) | Reading | Community summary of the key Clean Code principles |
 
 **Practice Project:** Plan the FitTrack application architecture on paper. Identify which design patterns apply — Strategy pattern for workout types (Strength, Cardio, Rest), Factory pattern for creating workout/diet entries, Repository pattern for data access. Sketch the class diagram and document which SOLID principles each decision follows. Commit this as your `refactor-log.md`.
