@@ -94,9 +94,111 @@
     processor.pay_debit(order, "0372846")
     ```
 
-    
+
 - Open/Close Principle:
-    - 
+    - The class should be open for extension but closed for modification, which means that the code you write, should not  be modified in the long run. It should be written in such a way that it can be extended in the future without modifying the existing code.
+    - Example: if we want to add a new payment method to the Order class that we wrote above, we would have to modify the existing code (the PaymentProcessor class, by adding a new method, like pay_applepay(), etc.). This can be avoided by using the Open/Close Principle. To be more specific, we can create an abstract class, understanding that the sole purpose of this class is to define payment, and all the classes that inherit from this class will have to implement the pay method, but in their own way. This is abstraction.
+    ```python
+    """
+    Before refactoring.
+    """
+    class Order:
+
+    def __init__(self):
+        self.items = []
+        self.quantities = []
+        self.prices = []
+        self.status = "open"
+
+    def add_item(self, name, quantity, price):
+        self.items.append(name)
+        self.quantities.append(quantity)
+        self.prices.append(price)
+
+    def total_price(self):
+        total = 0
+        for i in range(len(self.prices)):
+            total += self.quantities[i] * self.prices[i]
+        return total
+
+
+    class PaymentProcessor:
+        def pay_debit(self, order, security_code):
+            print("Processing debit payment type")
+            print(f"Verifying security code: {security_code}")
+            order.status = "paid"
+
+        def pay_credit(self, order, security_code):
+            print("Processing credit payment type")
+            print(f"Verifying security code: {security_code}")
+            order.status = "paid"
+
+
+    order = Order()
+    order.add_item("Keyboard", 1, 50)
+    order.add_item("SSD", 1, 150)
+    order.add_item("USB cable", 2, 5)
+
+    print(order.total_price())
+    processor = PaymentProcessor()
+    processor.pay_debit(order, "0372846")
+
+    """
+    After refactoring.
+    """
+        from abc import ABC, abstractmethod
+
+
+    class Order:
+
+        def __init__(self):
+            self.items = []
+            self.quantities = []
+            self.prices = []
+            self.status = "open"
+
+        def add_item(self, name, quantity, price):
+            self.items.append(name)
+            self.quantities.append(quantity)
+            self.prices.append(price)
+
+        def total_price(self):
+            total = 0
+            for i in range(len(self.prices)):
+                total += self.quantities[i] * self.prices[i]
+            return total
+
+
+    class PaymentProcessor(ABC):
+
+        @abstractmethod
+        def pay(self, order, security_code):
+            pass
+
+
+    class DebitPaymentProcessor(PaymentProcessor):
+        def pay(self, order, security_code):
+            print("Processing debit payment type")
+            print(f"Verifying security code: {security_code}")
+            order.status = "paid"
+
+
+    class CreditPaymentProcessor(PaymentProcessor):
+        def pay(self, order, security_code):
+            print("Processing credit payment type")
+            print(f"Verifying security code: {security_code}")
+            order.status = "paid"
+
+
+    order = Order()
+    order.add_item("Keyboard", 1, 50)
+    order.add_item("SSD", 1, 150)
+    order.add_item("USB cable", 2, 5)
+
+    print(order.total_price())
+    processor = DebitPaymentProcessor()
+    processor.pay(order, "0372846")
+    ```
 
 - Liskov Substitution Principle:
     - 
