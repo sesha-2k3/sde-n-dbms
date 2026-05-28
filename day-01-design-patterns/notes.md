@@ -1,4 +1,5 @@
 ## SOLID Principles:
+(Inspired from ArjanCodes, YouTube channel)
 
 - Single Responsibility Principle:
     - A class should have only one reason to change, that is, it should have only one job. 
@@ -201,7 +202,149 @@
     ```
 
 - Liskov Substitution Principle:
-    - 
+    - If we have the object of a parent class, then we can replace it with the object of its child class, without altering the correctness of the program, or breaking the code. This was quite confusing to understand initially, but after seeing several examples and implementing it, I got the hang of it.
+    - Example: Let us say we have a task to calculate the area of shapes. The shapes we need are rectangle and square. Initially, we might think of creating a class for square that inherits from rectangle. But square is a special type of rectangle, where the length and breadth are equal. So, if we create a class for square that inherits from rectangle, we would have to override the set_length and set_breadth methods to set both the length and breadth to the same value. This is not a good approach. Instead, we can create a class for rectangle and a class for square that inherits from a common parent class, that is, shape. This way, we can avoid violating the Liskov Substitution Principle.
+    - Let me represent another example using Orders that we were discussing before.
+    ```python
+    """
+    Before refactoring (violating Liskov Substitution Principle).
+    """
+    from abc import ABC, abstractmethod
+
+
+    class Order:
+
+        def __init__(self):
+            self.items = []
+            self.quantities = []
+            self.prices = []
+            self.status = "open"
+
+        def add_item(self, name, quantity, price):
+            self.items.append(name)
+            self.quantities.append(quantity)
+            self.prices.append(price)
+
+        def total_price(self):
+            total = 0
+            for i in range(len(self.prices)):
+                total += self.quantities[i] * self.prices[i]
+            return total
+
+
+    class PaymentProcessor(ABC):
+
+        @abstractmethod
+        def pay(self, order, security_code):
+            pass
+
+
+    class DebitPaymentProcessor(PaymentProcessor):
+        def pay(self, order, security_code):
+            print("Processing debit payment type")
+            print(f"Verifying security code: {security_code}")
+            order.status = "paid"
+
+
+    class CreditPaymentProcessor(PaymentProcessor):
+        def pay(self, order, security_code):
+            print("Processing credit payment type")
+            print(f"Verifying security code: {security_code}")
+            order.status = "paid"
+
+
+    class PaypalPaymentProcessor(PaymentProcessor):
+        def pay(self, order, security_code):
+            print("Processing paypal payment type")
+            print(f"Using email address: {security_code}")
+            order.status = "paid"
+
+
+    order = Order()
+    order.add_item("Keyboard", 1, 50)
+    order.add_item("SSD", 1, 150)
+    order.add_item("USB cable", 2, 5)
+
+    print(order.total_price())
+    processor = PaypalPaymentProcessor()
+    processor.pay(order, "hi@arjancodes.com")
+
+    """
+    After refactoring (satisfies Liskov Substitution Principle).
+    """
+
+    from abc import ABC, abstractmethod
+
+
+    class Order:
+
+        def __init__(self):
+            self.items = []
+            self.quantities = []
+            self.prices = []
+            self.status = "open"
+
+        def add_item(self, name, quantity, price):
+            self.items.append(name)
+            self.quantities.append(quantity)
+            self.prices.append(price)
+
+        def total_price(self):
+            total = 0
+            for i in range(len(self.prices)):
+                total += self.quantities[i] * self.prices[i]
+            return total
+
+
+    class PaymentProcessor(ABC):
+
+        @abstractmethod
+        def pay(self, order):
+            pass
+
+
+    class DebitPaymentProcessor(PaymentProcessor):
+
+        def __init__(self, security_code):
+            self.security_code = security_code
+
+        def pay(self, order):
+            print("Processing debit payment type")
+            print(f"Verifying security code: {self.security_code}")
+            order.status = "paid"
+
+
+    class CreditPaymentProcessor(PaymentProcessor):
+
+        def __init__(self, security_code):
+            self.security_code = security_code
+
+        def pay(self, order):
+            print("Processing credit payment type")
+            print(f"Verifying security code: {self.security_code}")
+            order.status = "paid"
+
+
+    class PaypalPaymentProcessor(PaymentProcessor):
+
+        def __init__(self, email_address):
+            self.email_address = email_address
+
+        def pay(self, order):
+            print("Processing paypal payment type")
+            print(f"Using email address: {self.email_address}")
+            order.status = "paid"
+
+
+    order = Order()
+    order.add_item("Keyboard", 1, 50)
+    order.add_item("SSD", 1, 150)
+    order.add_item("USB cable", 2, 5)
+
+    print(order.total_price())
+    processor = PaypalPaymentProcessor("hi@arjancodes.com")
+    processor.pay(order)
+    ```
 
 - Interface Segregation Principle:
     - 
