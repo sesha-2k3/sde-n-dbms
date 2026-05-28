@@ -2,60 +2,71 @@
     The strategy design pattern for implementing multiple ways to handle a specific operation.
 """
 
-from dataclasses import dataclass, field
 import string
 import random
-from typing import List, Callable
+from typing import List
+from abc import ABC, abstractmethod
 
 
-def generate_id(length: int = 8) -> str:
+def generate_id(length=8):
     # helper function for generating an id
     return ''.join(random.choices(string.ascii_uppercase, k=length))
 
 
-@dataclass
 class SupportTicket:
-    id: str = field(init=False, default_factory=generate_id)
-    customer: str
-    issue: str
+
+    def __init__(self, customer, issue):
+        self.id = generate_id()
+        self.customer = customer
+        self.issue = issue
 
 
-SupportTickets = List[SupportTicket]
-
-Ordering = Callable[[SupportTickets], SupportTickets]
-
-
-def fifo_ordering(list: SupportTickets) -> SupportTickets:
-    return list.copy()
+class TicketOrderingStrategy(ABC):
+    @abstractmethod
+    def create_ordering(self, list: List[SupportTicket]) -> List[SupportTicket]:
+        pass
 
 
-def filo_ordering(list: SupportTickets) -> SupportTickets:
-    list_copy = list.copy()
-    list_copy.reverse()
-    return list_copy
+class FIFOOrderingStrategy(TicketOrderingStrategy):
+    def create_ordering(self, list: List[SupportTicket]) -> List[SupportTicket]:
+        return list.copy()
 
 
-def random_ordering(list: SupportTickets) -> SupportTickets:
-    list_copy = list.copy()
-    random.shuffle(list_copy)
-    return list_copy
+class FILOOrderingStrategy(TicketOrderingStrategy):
+    def create_ordering(self, list: List[SupportTicket]) -> List[SupportTicket]:
+        list_copy = list.copy()
+        list_copy.reverse()
+        return list_copy
 
 
-def blackhole_ordering(_: SupportTickets) -> SupportTickets:
-    return []
+class RandomOrderingStrategy(TicketOrderingStrategy):
+    def create_ordering(self, list: List[SupportTicket]) -> List[SupportTicket]:
+        list_copy = list.copy()
+        random.shuffle(list_copy)
+        return list_copy
+
+
+class BlackHoleStrategy(TicketOrderingStrategy):
+    def create_ordering(self, list: List[SupportTicket]) -> List[SupportTicket]:
+        return []
 
 
 class CustomerSupport:
 
-    def __init__(self):
-        self.tickets: SupportTickets = []
+    def __init__(self, processing_strategy: TicketOrderingStrategy):
+        self.tickets = []
+        self.processing_strategy = processing_strategy
 
     def create_ticket(self, customer, issue):
         self.tickets.append(SupportTicket(customer, issue))
 
-    def process_tickets(self, ordering: Ordering):
+    """this is where the strategy design pattern comes into play, if we want to create new
+    ways to handle tickets, that is, new strategies, we can do it by simply creating
+    a new type and implement it, so that we do not have to change the existing code"""
+
+    def process_tickets(self):
         # create the ordered list
-        ticket_list = ordering(self.tickets)
+        ticket_list = self.processing_strategy.create_ordering(self.tickets)
 
         # if it's empty, don't do anything
         if len(ticket_list) == 0:
@@ -67,26 +78,19 @@ class CustomerSupport:
             self.process_ticket(ticket)
 
     def process_ticket(self, ticket: SupportTicket):
-        print("\n--------------------------------")
+        print("\n----------------------------------")
         print(f"Processing ticket id: {ticket.id}")
         print(f"Customer: {ticket.customer}")
         print(f"Issue: {ticket.issue}")
 
 
-def main() -> None:
-    # create the application
-    app = CustomerSupport()
+# create the application
+app = CustomerSupport(RandomOrderingStrategy())
 
-    # register a few tickets
-    app.create_ticket("John Smith", "My computer makes strange sounds!")
-    app.create_ticket("Linus Sebastian",
-                      "I can't upload any videos, please help.")
-    app.create_ticket(
-        "Arjan Egges", "VSCode doesn't automatically solve my bugs.")
+# register a few tickets
+app.create_ticket("John Smith", "My computer makes strange sounds!")
+app.create_ticket("Linus Sebastian", "I can't upload any videos, please help.")
+app.create_ticket("Arjan Egges", "VSCode doesn't automatically solve my bugs.")
 
-    # process the tickets
-    app.process_tickets(random_ordering)
-
-
-if __name__ == '__main__':
-    main()
+# process the tickets
+app.process_tickets()
