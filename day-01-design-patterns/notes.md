@@ -168,7 +168,7 @@
                 total += self.quantities[i] * self.prices[i]
             return total
 
-
+    # Abstract class for payment processing, and letting other classes to inherit and implement the pay method their own way.
     class PaymentProcessor(ABC):
 
         @abstractmethod
