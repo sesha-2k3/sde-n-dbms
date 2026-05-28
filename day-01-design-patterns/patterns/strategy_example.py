@@ -1,5 +1,7 @@
 """
     The strategy design pattern for implementing multiple ways to handle a specific operation.
+    - The strategy pattern is a behavioural design pattern that allows you to define a family of algorithms,
+        put each of them into a separate class, and make their objects interchangeable.
 """
 
 import string
